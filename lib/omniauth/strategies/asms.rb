@@ -12,8 +12,8 @@ module OmniAuth
         authorize_url: 'MUST BE SET',
         access_key_id: 'MUST BE SET',
         secret_access_key: 'MUST BE SET',
-        tssociation_id: 'MUST BE SET',
-        tssociation_key: 'MUST BE SET'
+        association_id: 'MUST BE SET',
+        association_key: 'MUST BE SET'
       }
 
       uid { info[:id] }
@@ -67,12 +67,12 @@ module OmniAuth
         options.client_options.secret_access_key
       end
 
-      def tssociation_id
-        options.client_options.tssociation_id
+      def association_id
+        options.client_options.association_id
       end
 
-      def tssociation_key
-        options.client_options.tssociation_key
+      def association_key
+        options.client_options.association_key
       end
     end
   end
