@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    omniauth-asms (0.0.1)
+    omniauth-membersuite (1.0.0)
       builder
       nokogiri
       omniauth (~> 1.0)
@@ -55,5 +55,5 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.7)
-  omniauth-asms!
+  omniauth-membersuite!
   rake (~> 10.0)

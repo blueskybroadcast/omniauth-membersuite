@@ -5,8 +5,8 @@ require 'rest_client'
 
 module OmniAuth
   module Strategies
-    class Asms < OmniAuth::Strategies::OAuth2
-      option :name, 'asms'
+    class Membersuite < OmniAuth::Strategies::OAuth2
+      option :name, 'membersuite'
 
       option :client_options, {
         authorize_url: 'MUST BE SET',

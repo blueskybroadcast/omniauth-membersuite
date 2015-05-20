@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in omniauth-asms.gemspec
+# Specify your gem's dependencies in omniauth-membersuite.gemspec
 gemspec

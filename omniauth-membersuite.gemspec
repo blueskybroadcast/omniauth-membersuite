@@ -1,15 +1,15 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'omniauth-asms/version'
+require 'omniauth-membersuite/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "omniauth-asms"
-  spec.version       = Omniauth::Asms::VERSION
-  spec.authors       = ["Viktor Leonets"]
-  spec.email         = ["4405511@gmail.com"]
-  spec.summary       = %q{ASMS SSO}
-  spec.description   = %q{ASMS SSO}
+  spec.name          = "omniauth-membersuite"
+  spec.version       = Omniauth::Membersuite::VERSION
+  spec.authors       = ["Viktor Leonets", "Timm Liu"]
+  spec.email         = ["4405511@gmail.com", "tliu@blueskybroadcast.com"]
+  spec.summary       = %q{Membersuite SSO}
+  spec.description   = %q{Membersuite SSO}
   spec.homepage      = ""
   spec.license       = "MIT"
 
