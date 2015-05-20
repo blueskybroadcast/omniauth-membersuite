@@ -12,26 +12,22 @@ module OmniAuth
         authorize_url: 'MUST BE SET',
         access_key_id: 'MUST BE SET',
         secret_access_key: 'MUST BE SET',
-        association_id: 'MUST BE SET',
-        association_key: 'MUST BE SET'
+        association_id: 'MUST BE SET'
       }
 
-      uid { info[:id] }
+      uid { @raw_info[:uid] }
 
       info do
-        raw_user_info
+        {
+          id: @raw_info[:uid],
+          first_name: @raw_info[:first_name],
+          last_name: @raw_info[:last_name],
+          email: @raw_info[:email]
+        }
       end
 
       extra do
-        { :raw_info => raw_user_info }
-      end
-
-      def credentials
-        {credintals: ''}
-      end
-
-      def raw_user_info
-        { id: 0 }
+        { :raw_info => @raw_info }
       end
 
       def request_phase
@@ -40,9 +36,24 @@ module OmniAuth
       end
 
       def callback_phase
+        @raw_info ||= {
+          :uid => request.params['uid'],
+          :first_name => request.params['first_name'],
+          :last_name => request.params['last_name'],
+          :email => request.params['email']
+        }
         self.env['omniauth.auth'] = auth_hash
         self.env['omniauth.origin'] = '/' + request.params['slug']
         call_app!
+      end
+
+      def credentials
+        {
+          authorize_url: authorize_url,
+          access_key_id: access_key_id,
+          secret_access_key: secret_access_key,
+          association_id: association_id
+        }
       end
 
       def auth_hash
@@ -69,10 +80,6 @@ module OmniAuth
 
       def association_id
         options.client_options.association_id
-      end
-
-      def association_key
-        options.client_options.association_key
       end
     end
   end
