@@ -22,25 +22,37 @@ module OmniAuth
           id: @raw_info[:uid],
           first_name: @raw_info[:first_name],
           last_name: @raw_info[:last_name],
-          email: @raw_info[:email]
+          email: @raw_info[:email],
+          username: @raw_info[:username],
+          subscriptions: @raw_info[:subscriptions],
+          subscription_expiration_dates: @raw_info[:subscription_expiration_dates],
+          membership: @raw_info[:membership],
+          membership_expiration_date: @raw_info[:membership_expiration_date],
+          membership_receives_member_benefits: @raw_info[:membership_receives_member_benefits]
         }
       end
 
       extra do
-        { :raw_info => @raw_info }
+        { raw_info: @raw_info }
       end
 
       def request_phase
-        slug = session['omniauth.params']['origin'].gsub(/\//,"")
-        redirect authorize_url + "?redirectURL=" + callback_url + "?slug=#{slug}"
+        slug = session['omniauth.params']['origin'].gsub(/\//, '')
+        redirect "#{authorize_url}?redirectURL=#{callback_url}?slug=#{slug}"
       end
 
       def callback_phase
         @raw_info ||= {
-          :uid => request.params['uid'],
-          :first_name => request.params['first_name'],
-          :last_name => request.params['last_name'],
-          :email => request.params['email']
+          uid: request.params['uid'],
+          first_name: request.params['first_name'],
+          last_name: request.params['last_name'],
+          email: request.params['email'],
+          username: request.params['username'],
+          subscriptions: request.params['subscriptions'],
+          subscription_expiration_dates: request.params['subscription_expiration_dates'],
+          membership: request.params['membership'],
+          membership_expiration_date: request.params['membership_expiration_date'],
+          membership_receives_member_benefits: request.params['membership_receives_member_benefits']
         }
         self.env['omniauth.auth'] = auth_hash
         self.env['omniauth.origin'] = '/' + request.params['slug']
@@ -57,7 +69,7 @@ module OmniAuth
       end
 
       def auth_hash
-        hash = AuthHash.new(:provider => name, :uid => uid)
+        hash = AuthHash.new(provider: name, uid: uid)
         hash.info = info
         hash.credentials = credentials
         hash.extra = extra
