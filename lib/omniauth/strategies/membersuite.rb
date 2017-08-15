@@ -8,6 +8,8 @@ module OmniAuth
     class Membersuite < OmniAuth::Strategies::OAuth2
       option :name, 'membersuite'
 
+      option :app_options, { app_event_id: nil }
+
       option :client_options, {
         authorize_url: 'MUST BE SET',
         access_key_id: 'MUST BE SET',
@@ -42,6 +44,10 @@ module OmniAuth
       end
 
       def callback_phase
+        slug = request.params['slug']
+        account = Account.find_by(slug: slug)
+        app_event = account.app_events.where(id: options.app_options.app_event_id).first_or_create(activity_type: 'sso')
+
         @raw_info ||= {
           uid: request.params['uid'],
           first_name: request.params['first_name'],
@@ -54,8 +60,10 @@ module OmniAuth
           membership_expiration_date: request.params['membership_expiration_date'],
           membership_receives_member_benefits: request.params['membership_receives_member_benefits']
         }
+
         self.env['omniauth.auth'] = auth_hash
-        self.env['omniauth.origin'] = '/' + request.params['slug']
+        self.env['omniauth.origin'] = '/' + slug
+        self.env['omniauth.app_event_id'] = app_event.id
         call_app!
       end
 
